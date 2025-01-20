@@ -18,6 +18,24 @@ agent = ConversableAgent(
 )
 ## https://microsoft.github.io/autogen/0.2/docs/topics/llm_configuration/ (LLM Configuration List)
 
-reply = agent.generate_reply(messages=[{"content": "Tell me a joke.", "role": "user"}])
+# reply = agent.generate_reply(messages=[{"content": "Tell me a joke.", "role": "user"}])
 # logger.info("REPLY : ",reply)
-print(reply)
+# print(reply)
+
+## Roles & Conversations
+
+cathy = ConversableAgent(
+    "cathy",
+    system_message="Your name is Cathy and you are a part of a duo of comedians.",
+    llm_config={"config_list": [{"model": "gpt-4o-mini", "temperature": 0.9, "api_key": OPENAI_API_KEY}]},
+    human_input_mode="NEVER",  # Never ask for human input.
+)
+
+joe = ConversableAgent(
+    "joe",
+    system_message="Your name is Joe and you are a part of a duo of comedians.",
+    llm_config={"config_list": [{"model": "gpt-4o-mini", "temperature": 0.7, "api_key": OPENAI_API_KEY}]},
+    human_input_mode="NEVER",  # Never ask for human input.
+)
+
+result = joe.initiate_chat(cathy, message="Cathy, tell me a joke.", max_turns=2)
